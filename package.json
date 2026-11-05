@@ -1,0 +1,28 @@
+{
+  "name": "empresa-em-conformidade",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Plataforma de treinamentos corporativos com JWT, criptografia de dados e 2FA.",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "create-admin": "node --disable-warning=ExperimentalWarning scripts/create-admin.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  },
+  "dependencies": {
+    "chart.js": "^4.6.1",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.3",
+    "helmet": "^8.3.0",
+    "jose": "^6.2.15",
+    "jspdf": "^4.2.1",
+    "otpauth": "^9.6.0",
+    "qrcode": "^1.5.4",
+    "zod": "^4.6.7"
+  }
+}

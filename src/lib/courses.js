@@ -45,7 +45,7 @@ const adminCourse = c => ({ ...c, quizCount: (c.quiz || []).length });
 const defaults = () => {
   const one = title => [{ id: 'm1', title: 'Videoaula', lessons: [{ id: 'l1', title, videoUrl: '', durationMin: 0 }] }];
   return [
-    { id: 'crs_compliance', title: 'Compliance', cover: '⚖️', color: '#1F5C4A',
+    { id: 'crs_compliance', title: 'Compliance', cover: '⚖️', color: '#17263F',
       description: 'Ética, integridade e a Lei Anticorrupção no dia a dia: conflito de interesses, brindes e presentes, e o papel de cada funcionário.',
       modules: one('Compliance e integridade no trabalho'),
       quiz: [
@@ -55,7 +55,7 @@ const defaults = () => {
         { q: 'Conflito de interesses acontece quando:', options: ['Um interesse pessoal pode influenciar uma decisão profissional', 'Duas áreas discordam sobre um projeto', 'Um cliente faz uma reclamação'], correct: 0 },
         { q: 'Ao perceber uma possível irregularidade, você deve:', options: ['Ignorar, porque não é da sua área', 'Relatar pelo canal de denúncias ou à área de compliance', 'Comentar com os colegas para saber se é verdade'], correct: 1 }
       ] },
-    { id: 'crs_lgpd', title: 'LGPD', cover: '🛡️', color: '#2C4A63',
+    { id: 'crs_lgpd', title: 'LGPD', cover: '🛡️', color: '#0E9385',
       description: 'Como tratar dados pessoais de clientes, fornecedores e colegas de acordo com a Lei Geral de Proteção de Dados.',
       modules: one('LGPD na prática'),
       quiz: [
@@ -65,7 +65,7 @@ const defaults = () => {
         { q: 'Qual órgão fiscaliza o cumprimento da LGPD?', options: ['Procon', 'Receita Federal', 'ANPD (Autoridade Nacional de Proteção de Dados)'], correct: 2 },
         { q: 'Você precisa enviar uma planilha com dados de clientes. O que fazer?', options: ['Usar apenas os canais autorizados pela empresa', 'Mandar para o seu e-mail pessoal se for urgente', 'Enviar e apagar depois'], correct: 0 }
       ] },
-    { id: 'crs_nr1', title: 'NR-1', cover: '🦺', color: '#6B5000',
+    { id: 'crs_nr1', title: 'NR-1', cover: '🦺', color: '#0F1C30',
       description: 'Gerenciamento de riscos ocupacionais, o PGR e os riscos psicossociais incluídos na atualização da norma.',
       modules: one('NR-1 e o gerenciamento de riscos'),
       quiz: [

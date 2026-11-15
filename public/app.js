@@ -67,7 +67,7 @@ const sleep = ms => new Promise(r=>setTimeout(r,ms));
 
 /* ---------- Saneamento de entradas ---------- */
 function clampStr(s, max){ return String(s??'').slice(0, max); }
-function safeColor(c){ return /^#[0-9a-fA-F]{6}$/.test(c||'') ? c : '#1F5C4A'; }
+function safeColor(c){ return /^#[0-9a-fA-F]{6}$/.test(c||'') ? c : '#17263F'; }
 function safeId(s){ return /^[A-Za-z0-9_-]{1,64}$/.test(s||'') ? s : ''; }
 /* Só aceita links https:// (bloqueia javascript:, data:, http: etc.). */
 function safeHttpsUrl(u){
@@ -145,6 +145,18 @@ function toast(msg){
 /* ============================= SESSION ============================= */
 let SESSION = { role:null, companyId:null }; // role: 'admin' | 'gestor'
 
+/* ============================= TEMA ============================= */
+/* A plataforma usa as cores da HubTask. As contas cujo e-mail contém um dos
+   termos abaixo continuam com o tema antigo (verde e amarelo), depois do login.
+   Para incluir ou tirar alguém, edite esta lista. */
+const TEMA_CLASSICO = ['wesley'];
+function usesClassicTheme(){
+  const email = String(SESSION.email||'').toLowerCase();
+  return !!email && TEMA_CLASSICO.some(t=>email.includes(t));
+}
+function applyTheme(){ document.body.classList.toggle('tema-classico', usesClassicTheme()); }
+function cssVar(name){ return getComputedStyle(document.body).getPropertyValue(name).trim(); }
+
 
 /* ============================= ROUTER ============================= */
 window.addEventListener('hashchange', route);
@@ -203,7 +215,7 @@ function topbar(activeKey){
   return `
   <div class="topbar">
     <div class="wrap topbar-inner">
-      <button class="brand" onclick="nav('#/')"><svg class="brand-mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13.5" fill="none" stroke="#1F5C4A" stroke-width="2.5"/><circle cx="15" cy="15" r="9" fill="#F2C230"/><path d="M10.5 15.2l3 3 5.8-6.2" fill="none" stroke="#17201B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Em Conformidade</button>
+      <button class="brand" onclick="nav('#/')"><svg class="brand-mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13.5" fill="none" style="stroke:var(--primary)" stroke-width="2.5"/><circle cx="15" cy="15" r="9" style="fill:var(--signal)"/><path d="M10.5 15.2l3 3 5.8-6.2" fill="none" style="stroke:var(--accent-text)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Em Conformidade</button>
       <div class="nav-links desktop">${linksHtml}</div>
       <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">☰</button>
     </div>
@@ -220,6 +232,7 @@ function footer(){
 function render(){
   const parts = currentRoute();
   const root = document.getElementById('app');
+  applyTheme();
   let activeKey = 'catalogo', body = '';
 
   if(parts.length===0){ body = viewCatalog(); activeKey='catalogo'; }
@@ -254,7 +267,7 @@ function sealSvg(){
     <defs><path id="sealPath" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
     <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="3"/>
     <circle cx="100" cy="100" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
-    <g class="seal-ring"><text font-family="Bricolage Grotesque, sans-serif" font-size="14" font-weight="700" fill="currentColor">
+    <g class="seal-ring"><text style="font-family:var(--font-display)" font-size="14" font-weight="700" fill="currentColor">
       <textPath href="#sealPath" textLength="458" lengthAdjust="spacing">EM CONFORMIDADE ✦ TREINAMENTO CONCLUÍDO ✦</textPath></text></g>
     <circle cx="100" cy="100" r="44" fill="var(--signal)"/>
     <path d="M80 101 l14 14 l27 -30" fill="none" stroke="var(--ink)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -526,11 +539,11 @@ function viewCertificate(enId){
   return `
   <button class="btn btn-ghost btn-sm" style="margin-bottom:18px" onclick="nav('#/aula/${en.id}')">← Voltar ao treinamento</button>
   <div class="card" style="max-width:800px; margin:0 auto; padding:0; overflow:hidden">
-    <div style="padding:52px 44px; border:10px solid var(--gold-soft); margin:14px; border-radius:8px; text-align:center; background:linear-gradient(180deg,#fff,#FDFCF8)">
+    <div style="padding:52px 44px; border:10px solid var(--gold-soft); margin:14px; border-radius:8px; text-align:center; background:linear-gradient(180deg,#fff,var(--paper))">
       <div style="font-size:12px; letter-spacing:.12em; color:var(--gold-deep); font-weight:700">CERTIFICADO DE CONCLUSÃO</div>
-      <div style="font-family:'Bricolage Grotesque',sans-serif; font-size:15px; font-weight:700; margin-top:18px; color:var(--ink-soft)">Em Conformidade · Treinamentos Corporativos</div>
+      <div style="font-family:var(--font-display); font-size:15px; font-weight:700; margin-top:18px; color:var(--ink-soft)">Em Conformidade · Treinamentos Corporativos</div>
       <div style="margin:30px 0 6px; font-size:14px; color:var(--ink-soft)">Certificamos que</div>
-      <div style="font-family:'Bricolage Grotesque',sans-serif; font-size:30px; font-weight:800; color:var(--primary)">${escapeHtml(en.employeeName)}</div>
+      <div style="font-family:var(--font-display); font-size:30px; font-weight:800; color:var(--primary)">${escapeHtml(en.employeeName)}</div>
       <div style="margin:16px 0 6px; font-size:14px; color:var(--ink-soft)">concluiu com êxito o treinamento</div>
       <div style="font-size:20px; font-weight:700">${escapeHtml(en.courseTitle)}</div>
       <div style="margin-top:26px; display:flex; justify-content:center; gap:40px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft)">
@@ -551,22 +564,23 @@ async function downloadCertificatePDF(enId){
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({orientation:'landscape', unit:'pt', format:'a4'});
     const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
-    doc.setFillColor('#F4F5F7'); doc.rect(0,0,W,H,'F');
-    doc.setDrawColor('#17201B'); doc.setLineWidth(2); doc.rect(30,30,W-60,H-60);
-    doc.setDrawColor('#1F5C4A'); doc.setLineWidth(1); doc.rect(38,38,W-76,H-76);
-    doc.setTextColor('#1F5C4A'); doc.setFont('helvetica','bold'); doc.setFontSize(13);
+    const C = { bg:cssVar('--paper')||'#F3F9F8', ink:cssVar('--ink')||'#17263F', main:cssVar('--done')||'#0E9385', soft:cssVar('--ink-soft')||'#6B7280' };
+    doc.setFillColor(C.bg); doc.rect(0,0,W,H,'F');
+    doc.setDrawColor(C.ink); doc.setLineWidth(2); doc.rect(30,30,W-60,H-60);
+    doc.setDrawColor(C.main); doc.setLineWidth(1); doc.rect(38,38,W-76,H-76);
+    doc.setTextColor(C.main); doc.setFont('helvetica','bold'); doc.setFontSize(13);
     doc.text('CERTIFICADO DE CONCLUSAO', W/2, 100, {align:'center'});
-    doc.setTextColor('#7A8296'); doc.setFontSize(12); doc.setFont('helvetica','normal');
+    doc.setTextColor(C.soft); doc.setFontSize(12); doc.setFont('helvetica','normal');
     doc.text('Em Conformidade - Treinamentos Corporativos', W/2, 122, {align:'center'});
-    doc.setTextColor('#454C5C'); doc.setFontSize(13);
+    doc.setTextColor(C.soft); doc.setFontSize(13);
     doc.text('Certificamos que', W/2, 175, {align:'center'});
-    doc.setTextColor('#17201B'); doc.setFont('helvetica','bold'); doc.setFontSize(30);
+    doc.setTextColor(C.ink); doc.setFont('helvetica','bold'); doc.setFontSize(30);
     doc.text(en.employeeName, W/2, 212, {align:'center'});
-    doc.setTextColor('#3B4353'); doc.setFont('helvetica','normal'); doc.setFontSize(13);
+    doc.setTextColor(C.ink); doc.setFont('helvetica','normal'); doc.setFontSize(13);
     doc.text('concluiu com exito o treinamento', W/2, 244, {align:'center'});
-    doc.setTextColor('#151A24'); doc.setFont('helvetica','bold'); doc.setFontSize(19);
+    doc.setTextColor(C.ink); doc.setFont('helvetica','bold'); doc.setFontSize(19);
     doc.text(en.courseTitle, W/2, 270, {align:'center'});
-    doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor('#3B4353');
+    doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(C.ink);
     const y2 = H-90;
     doc.text('Data de conclusao: ' + fmtDate(en.completedAt), W/2-260, y2, {align:'left'});
     doc.text('Empresa: ' + (en.companyName||'-'), W/2-60, y2, {align:'left'});
@@ -775,10 +789,10 @@ function viewGestorDashboard(tab){
     </div>`;
     pendingChartJobs.push(()=>{
       const statusCtx = document.getElementById('gestorChart1');
-      if(statusCtx) new Chart(statusCtx, { type:'doughnut', data:{ labels:['Concluídos','Em andamento'], datasets:[{data:[completed, inProgress], backgroundColor:['#1F5C4A','#D9A21B']}]}, options:{plugins:{legend:{position:'bottom'}}} });
+      if(statusCtx) new Chart(statusCtx, { type:'doughnut', data:{ labels:['Concluídos','Em andamento'], datasets:[{data:[completed, inProgress], backgroundColor:[cssVar('--chart-1'), cssVar('--chart-2')]}]}, options:{plugins:{legend:{position:'bottom'}}} });
       const byCourse = {}; ens.forEach(e=>{ const c = courseById(e.courseId); const k = c?c.title:'—'; byCourse[k]=(byCourse[k]||0)+1; });
       const courseCtx = document.getElementById('gestorChart2');
-      if(courseCtx) new Chart(courseCtx, { type:'bar', data:{ labels:Object.keys(byCourse), datasets:[{label:'Inscrições', data:Object.values(byCourse), backgroundColor:'#1F5C4A', borderRadius:6}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{precision:0}}}} });
+      if(courseCtx) new Chart(courseCtx, { type:'bar', data:{ labels:Object.keys(byCourse), datasets:[{label:'Inscrições', data:Object.values(byCourse), backgroundColor:cssVar('--chart-1'), borderRadius:6}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{precision:0}}}} });
     });
   } else if(tab==='equipe'){
     content = `
@@ -900,7 +914,7 @@ function adminTabVisao(){
     const byCourse = {}; DB.courses.forEach(c=>byCourse[c.title]=0);
     ens.filter(isEnrollmentComplete).forEach(e=>{ const c=courseById(e.courseId); if(c) byCourse[c.title]=(byCourse[c.title]||0)+1; });
     const ctx = document.getElementById('adminChart1');
-    if(ctx) new Chart(ctx, {type:'bar', data:{labels:Object.keys(byCourse), datasets:[{label:'Concluídos', data:Object.values(byCourse), backgroundColor:'#1F5C4A', borderRadius:6}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});
+    if(ctx) new Chart(ctx, {type:'bar', data:{labels:Object.keys(byCourse), datasets:[{label:'Concluídos', data:Object.values(byCourse), backgroundColor:cssVar('--chart-1'), borderRadius:6}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});
   }) ? '' : ''}`;
 }
 function adminTabEmpresas(){
@@ -1002,7 +1016,7 @@ async function deleteCourse(courseId){
 }
 let EDIT_COURSE = null;
 function openCourseModal(courseId){
-  EDIT_COURSE = courseId ? JSON.parse(JSON.stringify(courseById(courseId))) : { id:uid('crs'), title:'', description:'', cover:'📘', color:'#1F5C4A', modules:[{id:uid('m'),title:'Módulo 1',lessons:[]}], quiz:[] };
+  EDIT_COURSE = courseId ? JSON.parse(JSON.stringify(courseById(courseId))) : { id:uid('crs'), title:'', description:'', cover:'📘', color:'#17263F', modules:[{id:uid('m'),title:'Módulo 1',lessons:[]}], quiz:[] };
   showModal(`${courseId?'Editar':'Novo'} treinamento`, courseModalBody(), true);
 }
 function courseModalBody(){

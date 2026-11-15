@@ -1,48 +1,74 @@
 /* =====================================================================
-   Em Conformidade — identidade visual
-   Ideia: o "selo de conformidade". Papel verde-acinzentado frio, verde
-   profundo de carimbo, e um único amarelo de marca-texto para o que está
-   pendente ou pede ação. Tipografia: Bricolage Grotesque (títulos) +
-   Public Sans (texto, a fonte cívica feita para serviços públicos).
+   Em Conformidade — identidade visual HubTask
+   Paleta: azul-marinho #17263F, marinho profundo #0F1C30, turquesa #15B9A6,
+   turquesa escuro #0E9385, cinza #6B7280 e gelo #E7F5F2.
+   Tipografia: Montserrat (títulos) + Inter (texto e interface).
+   O tema antigo (verde e amarelo) continua disponível em body.tema-classico
+   (ver TEMA_CLASSICO em app.js).
    ===================================================================== */
 :root{
-  --ink:#17201B;          /* texto principal */
-  --ink-soft:#56635B;     /* texto secundário */
-  --paper:#EEF1EC;        /* fundo da página */
+  --ink:#17263F;          /* azul-marinho: texto principal */
+  --ink-soft:#6B7280;     /* cinza: texto secundário */
+  --paper:#F3F9F8;        /* fundo da página (gelo clareado) */
   --panel:#FFFFFF;        /* superfícies */
-  --primary:#1F5C4A;      /* verde do selo */
-  --primary-2:#174836;
-  --primary-soft:#DDEAE3;
-  --signal:#F2C230;       /* marca-texto: pendências e destaques */
-  --signal-soft:#FBF0C8;
-  --signal-ink:#6B5000;
+  --primary:#17263F;      /* azul-marinho: botões e destaques */
+  --primary-2:#0F1C30;    /* marinho profundo: hover */
+  --primary-soft:#E7F5F2; /* gelo */
+  --signal:#15B9A6;       /* turquesa: foco, marca e ação */
+  --signal-2:#0E9385;     /* turquesa escuro */
+  --signal-soft:#FDF1D6;  /* pendências (âmbar suave) */
+  --signal-ink:#7A5600;
+  --done:#0E9385;         /* concluído */
+  --font-display:'Montserrat',system-ui,sans-serif;
+  --font-text:'Inter',system-ui,-apple-system,sans-serif;
 
   /* aliases usados pelo restante do código */
-  --gold:var(--primary); --gold-soft:var(--primary-soft); --gold-deep:var(--primary);
+  --gold:var(--done); --gold-soft:var(--primary-soft); --gold-deep:var(--done);
   --accent:var(--primary); --accent-soft:var(--primary-soft);
   --amber:var(--signal-ink); --amber-soft:var(--signal-soft);
-  --danger:#A63D2A; --danger-soft:#F6E3DE;
-  --border:#CBD3CD; --border-soft:#DFE5E0;
-  --shadow: 0 1px 0 rgba(23,32,27,.06);
+  --danger:#B42318; --danger-soft:#FDE8E6; --danger-border:#F4C7C2;
+  --border:#D3DEE0; --border-soft:#E4ECEC;
+  --muted-bg:#E9EEF1; --hover-bg:#F0F6F6; --track:#DCE6E8; --scroll:#B9C6CB;
+  --shadow-rgb:23,38,63;
+  --shadow: 0 1px 0 rgba(var(--shadow-rgb),.06);
+  --accent-hover:#0E9385; --accent-text:#0F1C30;
+  --cover-ring:rgba(21,185,166,.9); --cover-text:#BFE9E3;
+  --chart-1:#17263F; --chart-2:#15B9A6;
   --radius: 10px;
   box-sizing:border-box;
+}
+/* Tema antigo (verde do selo + amarelo marca-texto) */
+body.tema-classico{
+  --ink:#17201B; --ink-soft:#56635B; --paper:#EEF1EC; --panel:#FFFFFF;
+  --primary:#1F5C4A; --primary-2:#174836; --primary-soft:#DDEAE3;
+  --signal:#F2C230; --signal-2:#E5B31C; --signal-soft:#FBF0C8; --signal-ink:#6B5000;
+  --done:#1F5C4A;
+  --font-display:var(--font-display);
+  --font-text:var(--font-text);
+  --danger:#A63D2A; --danger-soft:#F6E3DE; --danger-border:#EBC6BD;
+  --border:#CBD3CD; --border-soft:#DFE5E0;
+  --muted-bg:#E6EAE7; --hover-bg:#F1F4F2; --track:#DCE3DE; --scroll:#B8C2BB;
+  --shadow-rgb:23,32,27;
+  --accent-hover:#E5B31C; --accent-text:#17201B;
+  --cover-ring:var(--cover-ring); --cover-text:#CFE3D9;
+  --chart-1:#1F5C4A; --chart-2:#D9A21B;
 }
 *{box-sizing:border-box}
 html{scroll-padding-top:80px}
 html,body{min-height:100%}
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:'Public Sans',system-ui,-apple-system,sans-serif; font-size:15px; line-height:1.55;
+  font-family:var(--font-text); font-size:15px; line-height:1.55;
   -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,h4,.font-display{font-family:'Bricolage Grotesque',system-ui,sans-serif; letter-spacing:-.015em; line-height:1.15}
+h1,h2,h3,h4,.font-display{font-family:var(--font-display); letter-spacing:-.015em; line-height:1.15}
 a{color:inherit}
 button{font-family:inherit; cursor:pointer}
 input,select,textarea{font-family:inherit; accent-color:var(--primary)}
 :focus-visible{outline:3px solid var(--signal); outline-offset:2px}
-::selection{background:var(--signal); color:var(--ink)}
+::selection{background:var(--signal); color:var(--accent-text)}
 ::-webkit-scrollbar{height:8px;width:8px}
-::-webkit-scrollbar-thumb{background:#B8C2BB;border-radius:8px}
+::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:8px}
 @media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
 
 .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
@@ -51,11 +77,11 @@ input,select,textarea{font-family:inherit; accent-color:var(--primary)}
 /* ---------- Barra superior ---------- */
 .topbar{position:sticky; top:0; z-index:40; background:var(--paper); border-bottom:1px solid var(--border)}
 .topbar-inner{display:flex; align-items:center; justify-content:space-between; height:68px; gap:16px}
-.brand{display:flex; align-items:center; gap:10px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:18px; letter-spacing:-.02em; color:var(--ink); border:none; background:none; white-space:nowrap; padding:0}
+.brand{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:18px; letter-spacing:-.02em; color:var(--ink); border:none; background:none; white-space:nowrap; padding:0}
 .brand-mark{width:30px;height:30px;flex:none;display:block}
 .nav-links{display:flex; gap:2px; align-items:center}
 .nav-link{padding:8px 12px; border-radius:6px; font-size:14px; font-weight:600; color:var(--ink-soft); border:none; background:none; transition:background .15s, color .15s}
-.nav-link:hover{color:var(--ink); background:rgba(23,32,27,.06)}
+.nav-link:hover{color:var(--ink); background:rgba(var(--shadow-rgb),.06)}
 .nav-link.active{color:var(--ink); box-shadow:inset 0 -3px 0 var(--primary); border-radius:0}
 .nav-mobile-toggle{display:none}
 @media(max-width:820px){
@@ -71,12 +97,12 @@ input,select,textarea{font-family:inherit; accent-color:var(--primary)}
 .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:6px; padding:11px 18px; font-weight:700; font-size:14.5px; border:1px solid transparent; transition:background .15s, border-color .15s; white-space:nowrap; color:var(--ink)}
 .btn-primary{background:var(--primary); color:#fff}
 .btn-primary:hover{background:var(--primary-2)}
-.btn-accent{background:var(--signal); color:var(--ink)}
-.btn-accent:hover{background:#E5B31C}
+.btn-accent{background:var(--signal); color:var(--accent-text)}
+.btn-accent:hover{background:var(--accent-hover)}
 .btn-ghost{background:var(--panel); border-color:var(--border)}
 .btn-ghost:hover{border-color:var(--ink-soft)}
 .btn-sm{padding:7px 12px; font-size:13px}
-.btn-danger{background:var(--danger-soft); color:var(--danger); border-color:#EBC6BD}
+.btn-danger{background:var(--danger-soft); color:var(--danger); border-color:var(--danger-border)}
 .btn:disabled{opacity:.45; cursor:not-allowed}
 .btn-block{width:100%}
 
@@ -85,16 +111,16 @@ input,select,textarea{font-family:inherit; accent-color:var(--primary)}
 .pad{padding:24px}
 .section-title{font-size:13px; font-weight:700; color:var(--ink-soft); margin:0 0 4px}
 .stat{padding:20px}
-.stat .num{font-family:'Bricolage Grotesque',sans-serif; font-size:36px; font-weight:700; line-height:1; letter-spacing:-.03em}
+.stat .num{font-family:var(--font-display); font-size:36px; font-weight:700; line-height:1; letter-spacing:-.03em}
 .stat .label{color:var(--ink-soft); font-size:13.5px; margin-top:8px}
 
 .badge{display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:4px; font-size:12px; font-weight:700}
-.badge-done{background:var(--primary-soft); color:var(--primary)}
+.badge-done{background:var(--primary-soft); color:var(--done)}
 .badge-progress{background:var(--signal-soft); color:var(--signal-ink)}
-.badge-new{background:#E6EAE7; color:var(--ink-soft)}
+.badge-new{background:var(--muted-bg); color:var(--ink-soft)}
 
-.progress-track{height:8px; border-radius:2px; background:#DCE3DE; overflow:hidden}
-.progress-fill{height:100%; border-radius:2px; background:var(--primary); transition:width .4s ease}
+.progress-track{height:8px; border-radius:2px; background:var(--track); overflow:hidden}
+.progress-fill{height:100%; border-radius:2px; background:var(--done); transition:width .4s ease}
 
 .input, select.input, textarea.input{width:100%; padding:11px 13px; border-radius:6px; border:1px solid var(--border); background:#fff; font-size:15px; color:var(--ink)}
 .input:focus, select.input:focus, textarea.input:focus{outline:3px solid var(--signal); outline-offset:0; border-color:var(--ink)}
@@ -108,13 +134,13 @@ tbody tr:last-child td{border-bottom:none}
 .table-scroll{overflow-x:auto}
 
 /* ---------- Modal ---------- */
-.modal-backdrop{position:fixed; inset:0; background:rgba(23,32,27,.45); z-index:100; display:flex; align-items:flex-end; justify-content:center}
+.modal-backdrop{position:fixed; inset:0; background:rgba(var(--shadow-rgb),.45); z-index:100; display:flex; align-items:flex-end; justify-content:center}
 @media(min-width:641px){.modal-backdrop{align-items:center; padding:20px}}
-.modal{background:#fff; border-radius:12px 12px 0 0; width:100%; max-width:520px; max-height:92vh; overflow-y:auto; box-shadow:0 24px 60px -20px rgba(23,32,27,.35)}
+.modal{background:#fff; border-radius:12px 12px 0 0; width:100%; max-width:520px; max-height:92vh; overflow-y:auto; box-shadow:0 24px 60px -20px rgba(var(--shadow-rgb),.35)}
 @media(min-width:641px){.modal{border-radius:12px}}
 .modal-head{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--border-soft)}
 .modal-body{padding:24px}
-.icon-btn{width:32px;height:32px; border-radius:6px; border:none; background:#E6EAE7; display:flex; align-items:center; justify-content:center; font-size:15px}
+.icon-btn{width:32px;height:32px; border-radius:6px; border:none; background:var(--muted-bg); display:flex; align-items:center; justify-content:center; font-size:15px}
 
 /* ---------- Painéis com menu lateral ---------- */
 .sidebar-layout{display:grid; grid-template-columns:220px 1fr; gap:32px; align-items:start}
@@ -133,18 +159,18 @@ tbody tr:last-child td{border-bottom:none}
 .empty .emoji{font-size:32px; margin-bottom:10px}
 
 .toast-wrap{position:fixed; bottom:calc(20px + env(safe-area-inset-bottom,0px)); left:50%; transform:translateX(-50%); z-index:200; display:flex; flex-direction:column; gap:8px; align-items:center; width:100%; padding:0 16px; pointer-events:none}
-.toast{background:var(--ink); color:#fff; padding:12px 18px; border-radius:6px; font-size:14px; font-weight:600; border-left:4px solid var(--signal); box-shadow:0 10px 30px rgba(23,32,27,.25); animation:toastIn .25s ease}
+.toast{background:var(--ink); color:#fff; padding:12px 18px; border-radius:6px; font-size:14px; font-weight:600; border-left:4px solid var(--signal); box-shadow:0 10px 30px rgba(var(--shadow-rgb),.25); animation:toastIn .25s ease}
 @keyframes toastIn{from{opacity:0; transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* ---------- Player de aulas ---------- */
 .video-box{aspect-ratio:16/9; background:var(--ink); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden}
 .video-box iframe, .video-box video{width:100%; height:100%; border:0}
-.play-dot{width:64px;height:64px;border-radius:50%; background:var(--signal); display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:22px}
+.play-dot{width:64px;height:64px;border-radius:50%; background:var(--signal); display:flex; align-items:center; justify-content:center; color:var(--accent-text); font-size:22px}
 .lesson-row{display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:6px; cursor:pointer}
-.lesson-row:hover{background:#F1F4F2}
+.lesson-row:hover{background:var(--hover-bg)}
 .lesson-row.active{background:var(--primary-soft)}
 .lesson-check{width:22px;height:22px;border-radius:50%; border:2px solid var(--border); flex:none; display:flex; align-items:center; justify-content:center; font-size:12px; color:#fff}
-.lesson-check.done{background:var(--primary); border-color:var(--primary)}
+.lesson-check.done{background:var(--done); border-color:var(--done)}
 
 .course-cover{height:120px; border-radius:var(--radius) var(--radius) 0 0; display:flex; align-items:center; justify-content:center; font-size:36px; color:#fff}
 
@@ -171,7 +197,7 @@ footer.site-footer{padding-top:36px; padding-bottom:calc(36px + env(safe-area-in
 .home-steps li::before{content:counter(s); width:26px; height:26px; border-radius:50%; border:2px solid var(--primary); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex:none}
 
 /* o selo — único elemento ousado da página */
-.seal{width:220px; height:220px; color:var(--primary); transform:rotate(-8deg)}
+.seal{width:220px; height:220px; color:var(--done); transform:rotate(-8deg)}
 .seal .seal-ring{animation:sealSpin 60s linear infinite; transform-origin:50% 50%}
 @keyframes sealSpin{to{transform:rotate(360deg)}}
 @media(max-width:760px){.home-hero{grid-template-columns:1fr; padding:36px 0 32px; gap:28px} .seal{width:150px; height:150px; order:-1}}
@@ -191,8 +217,8 @@ footer.site-footer{padding-top:36px; padding-bottom:calc(36px + env(safe-area-in
 .access-row{display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:40px; border:1px solid var(--border); border-radius:var(--radius); background:var(--panel); overflow:hidden}
 .access-link{display:block; padding:22px 24px; border:none; background:none; text-align:left; border-right:1px solid var(--border); color:var(--ink); transition:background .15s}
 .access-link:last-child{border-right:none}
-.access-link:hover{background:#F6F8F6}
-.access-link strong{display:block; font-family:'Bricolage Grotesque',sans-serif; font-size:17px; margin-bottom:4px}
+.access-link:hover{background:var(--hover-bg)}
+.access-link strong{display:block; font-family:var(--font-display); font-size:17px; margin-bottom:4px}
 .access-link span{font-size:14px; color:var(--ink-soft)}
 .access-link.danger strong{color:var(--danger)}
 @media(max-width:760px){.access-row{grid-template-columns:1fr}.access-link{border-right:none; border-bottom:1px solid var(--border)}.access-link:last-child{border-bottom:none}}
@@ -200,12 +226,12 @@ footer.site-footer{padding-top:36px; padding-bottom:calc(36px + env(safe-area-in
 
 /* Capa da aula (exibida enquanto o vídeo não está cadastrado) */
 .lesson-cover{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; gap:10px; padding:clamp(20px,5%,44px); color:#fff;
-  background:radial-gradient(circle at 86% 24%, transparent 0 15%, rgba(242,194,48,.85) 15.2% 15.8%, transparent 16% 21%, rgba(255,255,255,.14) 21.2% 21.6%, transparent 21.8%), var(--primary)}
-.lesson-cover-module{font-size:14px; font-weight:600; color:#CFE3D9}
-.lesson-cover-title{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(24px,4.4vw,44px); line-height:1.05; letter-spacing:-.03em; max-width:16ch}
+  background:radial-gradient(circle at 86% 24%, transparent 0 15%, var(--cover-ring) 15.2% 15.8%, transparent 16% 21%, rgba(255,255,255,.14) 21.2% 21.6%, transparent 21.8%), var(--primary)}
+.lesson-cover-module{font-size:14px; font-weight:600; color:var(--cover-text)}
+.lesson-cover-title{font-family:var(--font-display); font-weight:800; font-size:clamp(24px,4.4vw,44px); line-height:1.05; letter-spacing:-.03em; max-width:16ch}
 .lesson-cover-foot{display:flex; align-items:center; gap:12px; font-weight:700; margin-top:6px}
 .lesson-cover-foot .play-dot{width:48px; height:48px; font-size:17px}
-.lesson-cover-note{order:-1; margin-bottom:auto; font-size:12.5px; color:#CFE3D9; max-width:70%}
+.lesson-cover-note{order:-1; margin-bottom:auto; font-size:12.5px; color:var(--cover-text); max-width:70%}
 
 @media(max-width:860px){.player-grid > div:last-child{order:-1}}
 
